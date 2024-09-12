@@ -7,10 +7,17 @@ TODO:
 Refatorar (nem terminei e já tá meio ruim)
 
 Parametrização
+
 Troca de bases
+
 Sistemas Lineares
+
 Autovalores/Autovetores
+
 Gram-Schmidt
+
 Operações com subespaços
+
 Transformações Lineares: Nucleo, Imagem
+
 P.I
