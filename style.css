@@ -1,0 +1,124 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.matrix-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.change {
+    margin-top: 60px;
+}
+
+.matrix-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #fff;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 10px;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    font-family: monospace;
+    font-size: 12px;
+    border: none;
+    background: #f9f9f9;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    resize: none;
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 1.5;
+}
+
+textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.operations-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+}
+
+.single-matrix-operation, .operation-group {
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    margin: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.section-title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+}
+
+.result {
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    white-space: pre-wrap;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .matrix-inputs, .operations-container, .result {
+        width: 100%;
+        max-width: none;
+    }
+
+    .matrix-input, .single-matrix-operation, .operation-group {
+        flex: 1 1 100%;
+        margin: 5px 0;
+    }
+}

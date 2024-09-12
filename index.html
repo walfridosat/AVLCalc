@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVLCalc</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Operações com Matrizes</h1>
+
+    <div class="matrix-inputs">
+        <div class="matrix-input">
+            <h3>Matriz 1</h3>
+            <textarea id="matrix1" placeholder="Digite a matriz 1"></textarea>
+        </div>
+
+        <div class="change">
+            <button onclick="changeMatrix()"><--------------------></button>
+        </div>
+
+        <div class="matrix-input">
+            <h3>Matriz 2</h3>
+            <textarea id="matrix2" placeholder="Digite a matriz 2"></textarea>
+        </div>
+    </div>
+
+    <div class="operations-container">
+        
+        <div class="single-matrix-operation">
+            <h3 class="section-title">Operações</h3>
+            <button onclick="calculate('determinant1')">Determinante</button>
+            <button onclick="calculate('sistem1')">Forma escada</button>
+        </div>
+
+        <div class="operation-group">
+            <h3 class="section-title">Operações com duas matrizes</h3>
+            <button onclick="calculate('add')">Somar</button>
+            <button onclick="calculate('subtract')">Subtrair</button>
+            <button onclick="calculate('multiply')">Multiplicar</button>
+        </div>
+
+        <div class="single-matrix-operation">
+            <h3 class="section-title">Operações</h3>
+            <button onclick="calculate('determinant2')">Determinante</button>
+            <button onclick="calculate('sistem2')">Forma escada</button>
+        </div>
+
+    </div>
+
+    <div class="result">
+        <h2>Resultado:</h2>
+        <pre id="result"></pre>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
