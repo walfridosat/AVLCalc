@@ -6,11 +6,11 @@ Disponível em https://www.cin.ufpe.br/~wsn/avlc/
 TODO:
 Refatorar (nem terminei e já tá meio ruim)
 
-Parametrização
+~~Parametrização~~
 
 Troca de bases
 
-Sistemas Lineares
+~~Sistemas Lineares~~
 
 Autovalores/Autovetores
 
