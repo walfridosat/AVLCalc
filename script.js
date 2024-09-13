@@ -41,6 +41,12 @@ function parametrizar(matriz) {
         }
     }
 
+    let vetores = Array(colunas-variaveisLivres.length).fill(null);
+    let constantes = [];
+    for(let i = 0; i < colunas-variaveisLivres.length; i++){
+        vetores[i] = [];
+    }
+
     let resultado = "Solução paramétrica: \n";
     for (let i = 0; i < linhas; i++) {
         let pivo = -1;
@@ -52,13 +58,19 @@ function parametrizar(matriz) {
         }
         if (pivo !== -1) {
             let expressao = '';
+            constantes.push(matriz[i][colunas - 1]);
             if (matriz[i][colunas - 1] !== 0) {
                 expressao += `${matriz[i][colunas - 1]}`;
             }
             for (let j = pivo + 1; j < colunas - 1; j++) {
                 if (matriz[i][j] !== 0) {
                     if (expressao.length > 0) {
-                        expressao += ` - ${matriz[i][j]} * x${j + 1}`;
+                        if(matriz[i][j] < 0) {
+                            expressao += ` + ${Math.abs(matriz[i][j])} * x${j + 1}`
+                        } else {
+                            expressao += ` - ${matriz[i][j]} * x${j + 1}`;
+                        }
+                        vetores[j].push(-1*matriz[i][j]);
                     } else {
                         expressao += `-${matriz[i][j]} * x${j + 1}`;
                     }
@@ -66,6 +78,12 @@ function parametrizar(matriz) {
             }
             solucao[pivo] = expressao || '0';
         }
+    }
+
+    for(let i = 0; i < colunas-variaveisLivres.length; i++){
+        if(vetores[i].length>0){
+            vetores[i].push(1); constantes.push(0);
+        } 
     }
 
     variaveisLivres.forEach((j, idx) => {
@@ -77,6 +95,28 @@ function parametrizar(matriz) {
             resultado += `x${i + 1} = ${solucao[i]}\n`;
         }
     }
+    console.log(vetores);
+    console.log(constantes);
+    resultado += "\n Combinação linear: \n";
+    resultado += '(';
+    for(let i = 0; i < colunas-2; i++){
+        resultado+=`x${i+1},`;
+    }
+    resultado += `x${colunas-1}) = `;
+    if(constantes.length>0){
+        resultado += "("+constantes.join(",")+")";
+    }
+    if(vetores.length>0){
+        resultado += " + ";
+        for(let i = 0; i < vetores.length-1; i++){
+            if(vetores[i].length>0){
+                resultado += `t${vetores.length-1-i}(`+vetores[i].join(",")+") + ";
+            }
+        }
+        if(vetores[vetores.length-1].length>0){
+            resultado += `t${vetores.length-1}(`+vetores[vetores.length-1].join(",")+")";
+        }
+    }
 
     return resultado;
 }
@@ -85,12 +125,12 @@ const transpose = matrix => matrix[0].map((col, c) => matrix.map((row, r) => mat
 
 // Gauss
 function escalonar(matrix) {
-    let lead = 0;
-    let rows = matrix.length;   
+    let rows = matrix.length;
     let columns = matrix[0].length;
+    let lead = 0;
     for (let r = 0; r < rows; r++) {
       if (columns <= lead) {
-        return;
+        return matrix;
       }
       let i = r;
       while (matrix[i][lead] == 0) {
@@ -99,7 +139,7 @@ function escalonar(matrix) {
           i = r;
           lead++;
           if (columns == lead) {
-            return;
+            return matrix;
           }
         }
       }
@@ -120,7 +160,8 @@ function escalonar(matrix) {
       lead++;
     }
     return matrix;
-}
+  }
+
 
 // Botaozin de trocar
 function changeMatrix() {
