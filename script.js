@@ -3,6 +3,14 @@ function parseMatrix(matrixStr) {
     return matrixStr.trim().split('\n').map(row => row.trim().split(' ').map(Number));
 }
 
+function filtro(matrix){
+    for(let i = 0; i < matrix.length; i++){
+        for(let j = 0; j < matrix[0].length; j++){
+            matrix[i][j] = Math.round(matrix[i][j] * 1000) / 1000;
+        }
+    }
+    return matrix;
+}
 // Subtrair duas linhas, result = L1-L2
 function subLine(line1, line2) {
     const length = Math.min(list1.length, list2.length);
@@ -13,6 +21,14 @@ function subLine(line1, line2) {
     return result;
 }
 
+function nonZero(vec){
+    for(let i = 0; i < vec.length; i++){
+        if(vec[i]!==0){
+            return true;
+        }
+    }
+    return false;
+}
 // Multiplicar uma linha por K
 function kv(list, k) {
     return list.map(item => item * k);
@@ -21,6 +37,7 @@ function kv(list, k) {
 // Parametrização
 function parametrizar(matriz) {
     matriz = escalonar(matriz);
+    matriz = filtro(matriz);
     let linhas = matriz.length;
     let colunas = matriz[0].length;
     let variaveisLivres = [];
@@ -41,10 +58,10 @@ function parametrizar(matriz) {
         }
     }
 
-    let vetores = Array(colunas-variaveisLivres.length).fill(null);
-    let constantes = [];
-    for(let i = 0; i < colunas-variaveisLivres.length; i++){
-        vetores[i] = [];
+    let vetores = Array(colunas-1).fill(null);
+    let constantes = Array(colunas-1).fill(0);
+    for(let i = 0; i < colunas; i++){
+        vetores[i] = Array(colunas-1).fill(0);
     }
 
     let resultado = "Solução paramétrica: \n";
@@ -58,7 +75,7 @@ function parametrizar(matriz) {
         }
         if (pivo !== -1) {
             let expressao = '';
-            constantes.push(matriz[i][colunas - 1]);
+            constantes[i]=matriz[i][colunas - 1];
             if (matriz[i][colunas - 1] !== 0) {
                 expressao += `${matriz[i][colunas - 1]}`;
             }
@@ -70,19 +87,25 @@ function parametrizar(matriz) {
                         } else {
                             expressao += ` - ${matriz[i][j]} * x${j + 1}`;
                         }
-                        vetores[j].push(-1*matriz[i][j]);
+                        vetores[j][pivo] = -1*matriz[i][j];
                     } else {
-                        expressao += `-${matriz[i][j]} * x${j + 1}`;
+                        if(matriz[i][j] < 0) {
+                            expressao += `${Math.abs(matriz[i][j])} * x${j + 1}`
+                        } else {
+                            expressao += ` -${matriz[i][j]} * x${j + 1}`;
+                        }
+                        vetores[j][pivo] = -1*matriz[i][j];
                     }
                 }
             }
             solucao[pivo] = expressao || '0';
         }
     }
+    debugger;
 
-    for(let i = 0; i < colunas-variaveisLivres.length; i++){
-        if(vetores[i].length>0){
-            vetores[i].push(1); constantes.push(0);
+    for(let i = 0; i < colunas; i++){
+        if(vetores[i].reduce((acumulador, valorAtual) => acumulador + valorAtual, 0) !== 0){
+            vetores[i][i] = 1;
         } 
     }
 
@@ -103,18 +126,29 @@ function parametrizar(matriz) {
         resultado+=`x${i+1},`;
     }
     resultado += `x${colunas-1}) = `;
-    if(constantes.length>0){
+
+    let vectorCount = 0;
+    if(nonZero(constantes)){
         resultado += "("+constantes.join(",")+")";
+        vectorCount+=1;
     }
+
     if(vetores.length>0){
-        resultado += " + ";
+        let count = 1;
         for(let i = 0; i < vetores.length-1; i++){
-            if(vetores[i].length>0){
-                resultado += `t${vetores.length-1-i}(`+vetores[i].join(",")+") + ";
+            if(nonZero(vetores[i])){
+                if(vectorCount>0){
+                    resultado += ` + t${count}(`+vetores[i].join(",")+")";
+                    vectorCount += 1;
+                } else{
+                    resultado += `t${count}(`+vetores[i].join(",")+")";
+                    vectorCount += 1;
+                }
+                count+=1;
             }
         }
-        if(vetores[vetores.length-1].length>0){
-            resultado += `t${vetores.length-1}(`+vetores[vetores.length-1].join(",")+")";
+        if(nonZero(vetores[vetores.length-1])){
+            resultado += ` + t${vetores.length-1}(`+vetores[vetores.length-1].join(",")+")";
         }
     }
 
