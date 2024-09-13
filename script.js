@@ -20,6 +20,7 @@ function kv(list, k) {
 
 // Parametrização
 function parametrizar(matriz) {
+    matriz = escalonar(matriz);
     let linhas = matriz.length;
     let colunas = matriz[0].length;
     let variaveisLivres = [];
